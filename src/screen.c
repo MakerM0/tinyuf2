@@ -245,7 +245,7 @@ void screen_draw_drag (void)
 
   drawBar(0, 52, COLOR_GREEN);
   drawBar(52, 55, COLOR_BLUE);
-  drawBar(107, 14, COLOR_ORANGE);
+  drawBar(107, DISPLAY_HEIGHT-107, COLOR_ORANGE);
 
   // Center UF2_PRODUCT_NAME and UF2_VERSION_BASE.
   int name_x = (DISPLAY_WIDTH - CHAR4_KERNED_WIDTH * (int) strlen(DISPLAY_TITLE)) / 2;
@@ -255,10 +255,10 @@ void screen_draw_drag (void)
   print(version_x >= 0 ? version_x : 0, 40, COLOR_PURPLE, UF2_VERSION_BASE);
 
   // TODO the reset should be center as well
-  print(23, 110, 1, "circuitpython.org");
+  print(0, 110, 1, "circuitpython.org");
 
 #define DRAG 70
-#define DRAGX 10
+#define DRAGX 0
   printicon(DRAGX + 20, DRAG + 5, COLOR_WHITE, fileLogo);
   printicon(DRAGX + 66, DRAG, COLOR_WHITE, arrowLogo);
   printicon(DRAGX + 108, DRAG, COLOR_WHITE, pendriveLogo);
