@@ -85,7 +85,7 @@
 // #define DISPLAY_COL_OFFSET    2
 // #define DISPLAY_ROW_OFFSET    1
 
-#define DISPLAY_COL_OFFSET    0
+#define DISPLAY_COL_OFFSET    1
 #define DISPLAY_ROW_OFFSET    2
 
 // Memory Data Access Control & // Vertical Scroll Start Address
