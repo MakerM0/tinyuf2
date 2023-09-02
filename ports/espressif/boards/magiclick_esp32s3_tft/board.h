@@ -92,24 +92,24 @@
 #define DISPLAY_MADCTL         (TFT_MADCTL_MX | TFT_MADCTL_MY | TFT_MADCTL_MV  |TFT_MADCTL_BGR)
 #define DISPLAY_VSCSAD        0
 
-#define DISPLAY_TITLE         "MagiClick s3"
+#define DISPLAY_TITLE         "MagiClick_s3"
 
 //--------------------------------------------------------------------+
 // USB UF2
 //--------------------------------------------------------------------+
+//for test
+#define USB_VID                  0x23ff
+#define USB_PID                  0x01ff
 
-#define USB_VID                  0x239A
-#define USB_PID                  0x011D
-
-#define USB_MANUFACTURER         "Adafruit"
-#define USB_PRODUCT              "Feather ESP32-S3 TFT"
+#define USB_MANUFACTURER         "MakerM0"
+#define USB_PRODUCT              "MagiClick_s3"
 
 #define UF2_PRODUCT_NAME         USB_MANUFACTURER " " USB_PRODUCT
-#define UF2_BOARD_ID             "magiclick_esp32s3"
+#define UF2_BOARD_ID             "MagiClick_s3"
 #define UF2_VOLUME_LABEL         "MAGICS3BOOT"
-#define UF2_INDEX_URL            "https://www.adafruit.com/product/5483"
+#define UF2_INDEX_URL            "https://github.com/MakerM0/MagiClick-esp32s3"
 
 // Use favicon
-#define TINYUF2_FAVICON_HEADER   "favicon_adafruit_256.h"
+ 
 
 #endif
