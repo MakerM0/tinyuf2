@@ -52,7 +52,7 @@
 #define NEOPIXEL_BRIGHTNESS   0x10
 
 // Number of neopixels
-#define NEOPIXEL_NUMBER       1
+#define NEOPIXEL_NUMBER       2
 
 // LED for indicator and writing flash
 // If not defined neopixel will be use for flash writing instead
@@ -92,20 +92,20 @@
 #define DISPLAY_MADCTL         (TFT_MADCTL_MX | TFT_MADCTL_MY | TFT_MADCTL_MV  |TFT_MADCTL_BGR)
 #define DISPLAY_VSCSAD        0
 
-#define DISPLAY_TITLE         "MagiClick_s3"
+#define DISPLAY_TITLE         "MagiClick S3"
 
 //--------------------------------------------------------------------+
 // USB UF2
 //--------------------------------------------------------------------+
-//for test
-#define USB_VID                  0x23ff
-#define USB_PID                  0x01ff
+ 
+#define USB_VID           0x303A            // Espressif VID
+#define USB_PID           0x81AC            // Espressif assigned PID
 
 #define USB_MANUFACTURER         "MakerM0"
-#define USB_PRODUCT              "MagiClick_s3"
+#define USB_PRODUCT              "MagiClick S3"
 
 #define UF2_PRODUCT_NAME         USB_MANUFACTURER " " USB_PRODUCT
-#define UF2_BOARD_ID             "MagiClick_s3"
+#define UF2_BOARD_ID             "MagiClick_S3_1.0"
 #define UF2_VOLUME_LABEL         "MAGICS3BOOT"
 #define UF2_INDEX_URL            "https://github.com/MakerM0/MagiClick-esp32s3"
 

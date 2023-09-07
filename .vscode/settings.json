@@ -1,3 +1,4 @@
 {
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "cmake.sourceDirectory": "/workspaces/tinyuf2/lib/esp-idf/components/coap"
 }
