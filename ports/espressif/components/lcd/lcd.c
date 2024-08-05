@@ -193,6 +193,78 @@ DRAM_ATTR static const lcd_init_cmd_t gc_init_cmds[] = {
     {0x29, {0}, 0x80},
     {0, {0}, 0xff}
 };
+//nv3023
+DRAM_ATTR static const lcd_init_cmd_t nv_init_cmds[] = {
+
+    // {0x01, {0}, 0x80},
+    // {0x11, {0}, 0x80},
+    /* Interface Pixel Format, 16bits/pixel for RGB/MCU interface */
+    {0xff, {0xa5}, 1},
+    {0x3e, {0x09}, 1},
+    {0x3a, {0x65}, 1},
+    {0x82, {0x00}, 1},
+    {0x98, {0x00}, 1},
+    {0x63, {0x0f}, 1},
+    {0x64, {0x0f}, 1},
+    {0xb4, {0x34}, 1},
+    {0xb5, {0x30}, 1},
+    {0x83, {0x03}, 1},
+    {0x86, {0x04}, 1},
+    {0x87, {0x16}, 1},
+    {0x88, {0x0a}, 1},
+    {0x89, {0x27}, 1},
+    {0x93, {0x63}, 1},
+    {0x96, {0x81}, 1},
+    {0xc3, {0x10}, 1},
+    {0xe6, {0x00}, 1},
+    {0x99, {0x01}, 1},
+    
+
+    /* Positive Voltage Gamma Control */
+    // {0x70, {0x09, 0x1d, 0x14, 0x0a, 0x11, 0x16, 0x38, 0x0b, 0x08, 0x3e, 0x07, 0x0d, 0x16, 0x0F,0x14,0x05}, 16},
+    {0x70, {0x09}, 1},
+    {0x71, {0x1d}, 1},
+    {0x72, {0x14 }, 1},
+    {0x73, {0x0a }, 1},
+    {0x74, {0x11}, 1},
+    {0x75, {0x16 }, 1},
+    {0x76, {0x38 }, 1},
+    {0x77, {0x0b }, 1},
+    {0x78, {0x08 }, 1},
+    {0x79, {0x3e }, 1},
+    {0x7a, {0x07 }, 1},
+    {0x7b, {0x0d }, 1},
+    {0x7c, {0x16 }, 1},
+    {0x7d, {0x0F}, 1},
+    {0x7e, {0x14}, 1},
+    {0x7f, {0x05}, 1},
+    /* Negative Voltage Gamma Control */
+    // {0xa0, {0x04, 0x28, 0x0c, 0x11, 0x0b, 0x23, 0x45, 0x07, 0x0a, 0x3b, 0x0d, 0x18, 0x14, 0x0F,0x19,0x08}, 16},
+    {0xa0, {0x04}, 1},
+    {0xa1, {0x28}, 1},
+    {0xa2, {0x0c}, 1},
+    {0xa3, {0x11}, 1},
+    {0xa4, {0x0b}, 1},
+    {0xa5, {0x23}, 1},
+    {0xa6, {0x45}, 1},
+    {0xa7, {0x07}, 1},
+    {0xa8, {0x0a}, 1},
+    {0xa9, {0x3b}, 1},
+    {0xaa, {0x0d}, 1},
+    {0xab, {0x18}, 1},
+    {0xac, {0x14}, 1},
+    {0xad, {0x0F}, 1},
+    {0xae, {0x19}, 1},
+    {0xaf, {0x08}, 1},
+
+    {0xff, {0x00}, 1},
+    /* Sleep Out */
+    {0x11, {0}, 0x80},
+    {0x36, {0xa8}, 1},
+    /* Display On */
+    {0x29, {0}, 0x80},
+    {0, {0}, 0xff}
+};
 
 static void lcd_cmd(spi_device_handle_t spi, const uint8_t cmd)
 {
@@ -338,6 +410,9 @@ esp_err_t lcd_init(spi_device_handle_t spi)
 #elif defined( CONFIG_LCD_TYPE_GC9107 )
     ESP_LOGI(TAG, "kconfig: force CONFIG_LCD_TYPE_GC9107.");
     lcd_type = LCD_TYPE_GC;
+#elif defined( CONFIG_LCD_TYPE_NV3023 )
+    ESP_LOGI(TAG, "kconfig: force CONFIG_LCD_TYPE_NV3023.");
+    lcd_type = LCD_TYPE_NV;
 
 #endif
 
@@ -347,6 +422,9 @@ esp_err_t lcd_init(spi_device_handle_t spi)
     } else if(lcd_type == LCD_TYPE_GC) {
         ESP_LOGI(TAG, "GC9107 initialization.");
         lcd_init_cmds = gc_init_cmds;
+    } else if(lcd_type == LCD_TYPE_NV) {
+        ESP_LOGI(TAG, "NV3023 initialization.");
+        lcd_init_cmds = nv_init_cmds;
     } else {
         ESP_LOGI(TAG, "ILI9341 initialization.");
         lcd_init_cmds = ili_init_cmds;
@@ -362,7 +440,7 @@ esp_err_t lcd_init(spi_device_handle_t spi)
         }
 
         cmd++;
-    }
+    }     
 
 #if defined(DISPLAY_PIN_BL) && DISPLAY_PIN_BL != -1
     /*!< /Enable backlight */
@@ -424,7 +502,7 @@ void lcd_draw_lines(spi_device_handle_t spi, int ypos, uint16_t *linedata)
     trans[0].tx_data[0] = 0x2A;         /*!< Column Address Set */
     trans[1].tx_data[0] = (DISPLAY_COL_OFFSET) >> 8;            /*!< Start Col High */
     trans[1].tx_data[1] = (DISPLAY_COL_OFFSET) & 0xff;            /*!< Start Col Low */
-    #if defined( CONFIG_LCD_TYPE_GC9107 )
+    #if (defined CONFIG_LCD_TYPE_GC9107 ) || (defined CONFIG_LCD_TYPE_NV3023)
     trans[1].tx_data[2] = (DISPLAY_HEIGHT+DISPLAY_COL_OFFSET-1) >> 8;   /*!< End Col High */
     trans[1].tx_data[3] = (DISPLAY_HEIGHT+DISPLAY_COL_OFFSET-1) & 0xff; /*!< End Col Low */
     #else
@@ -435,7 +513,7 @@ void lcd_draw_lines(spi_device_handle_t spi, int ypos, uint16_t *linedata)
     trans[2].tx_data[0] = 0x2B;         /*!< Page address set */
     trans[3].tx_data[0] = ypos >> 8;    /*!< Start page high */
     trans[3].tx_data[1] = ypos & 0xff;  /*!< start page low */
-    #if defined( CONFIG_LCD_TYPE_GC9107 )
+    #if (defined CONFIG_LCD_TYPE_GC9107 ) || (defined CONFIG_LCD_TYPE_NV3023)
     trans[3].tx_data[2] = (ypos + PARALLEL_LINES-1) >> 8; /*!< end page high */
     trans[3].tx_data[3] = (ypos + PARALLEL_LINES-1) & 0xff; /*!< end page low */
     #else
